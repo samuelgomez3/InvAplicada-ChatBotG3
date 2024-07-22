@@ -1,7 +1,7 @@
 'use client';
 
 import Head from 'next/head';
-import Chatbot from '../components/chatbot/Chatbot';
+import Chatbot from '../components/Chatbot';
 
 export default function Home() {
   return (
