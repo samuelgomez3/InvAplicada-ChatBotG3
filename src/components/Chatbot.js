@@ -51,3 +51,48 @@ const keywords = {
     'actividad': 'Este fin de semana hay una proyección de películas en el campus.',
     'alimentación': 'Las opciones de alimentación en el campus incluyen varios comedores.',
   };
+const Chatbot = () => {
+  const [messages, setMessages] = useState([]);
+  
+  const [input, setInput] = useState('');
+
+  const handleSend = () => {
+    const detectedKeyword = detectResponse(input);
+
+    let response;
+    if (detectedKeyword) {
+      response = responses[detectedKeyword];
+    } else {
+      response = 'Lo siento, no entiendo tu pregunta. ¿Querías decir algo como: "calendario académico" o "horario de clases"?';
+    }
+
+    setMessages([...messages, { text: input, user: true }, { text: response, user: false }]);
+    setInput(''); 
+  };
+
+return (
+  <div style={{ width: '400px', margin: '0 auto', border: '1px solid #ccc', padding: '10px' }}>
+    {/* Contenedor para mostrar los mensajes */}
+    <div style={{ height: '300px', overflowY: 'scroll', marginBottom: '10px' }}>
+      {messages.map((msg, index) => (
+        <div key={index} style={{ textAlign: msg.user ? 'right' : 'left' }}>
+          <div style={{ display: 'inline-block', padding: '10px', borderRadius: '10px', backgroundColor: msg.user ? '#cce4ff' : '#e0e0e0', margin: '5px 0' }}>
+            {msg.text}
+          </div>
+        </div>
+      ))}
+    </div>
+    {/* Campo de entrada de texto y botón de enviar */}
+    <input
+      type="text"
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      onKeyPress={(e) => { if (e.key === 'Enter') handleSend(); }}
+      style={{ width: '80%', padding: '10px' }}
+    />
+    <button onClick={handleSend} style={{ width: '20%', padding: '10px' }}>Enviar</button>
+  </div>
+);
+};
+
+export default Chatbot;
